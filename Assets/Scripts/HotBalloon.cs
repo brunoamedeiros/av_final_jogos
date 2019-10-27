@@ -5,17 +5,28 @@ using UnityEngine;
 public class HotBalloon : MonoBehaviour
 {
 
+  private GameController gameController;
   public int speed = 7;
   private float originalY;
-  private bool gameStart;
-  private float minY = -3.1f;
-  private float maxY = 2.96f;
+  private float minY = -2.35f;
+  private float maxY = 3.76f;
 
   // Start is called before the first frame update
   void Start()
   {
     originalY = transform.position.y;
-    gameStart = false;
+
+    GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+
+    if (gameControllerObject != null)
+    {
+      gameController = gameControllerObject.GetComponent<GameController>();
+    }
+
+    if (gameController == null)
+    {
+      Debug.Log("Cannot find 'GameController' script");
+    }
   }
 
   // Update is called once per frame
@@ -24,10 +35,10 @@ public class HotBalloon : MonoBehaviour
 
     if (Input.GetMouseButtonDown(0))
     {
-      gameStart = true;
+      gameController.gameStart = true;
     }
 
-    if (gameStart)
+    if (gameController.gameStart)
     {
       if (Input.GetMouseButton(0))
       {
@@ -52,7 +63,7 @@ public class HotBalloon : MonoBehaviour
 
   private void Down()
   {
-    float y = transform.position.y + (speed * Time.deltaTime * -1);
+    float y = transform.position.y - (speed * Time.deltaTime);
     VerifyLimitScreen(y);
   }
 

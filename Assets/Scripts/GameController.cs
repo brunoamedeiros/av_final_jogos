@@ -6,67 +6,79 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-  public GameObject bone;
-  public GameObject heath;
-  public GameObject immunity;
-  private static float SpawnSpeed = 2f;
+  private static float SpawnSpeed = 3f;
   public string NewLevel = "Level 2";
   private Scene currentScene;
-  private float minY = -3.1f;
-  private float maxY = 2.96f;
+  private float minY = -2.35f;
+  private float maxY = 3.76f;
+  public bool gameStart;
+  public GameObject collectable;
+  public GameObject health;
+  public GameObject immunity;
 
   // Start is called before the first frame update
   void Start()
   {
     currentScene = SceneManager.GetActiveScene();
 
-    InvokeRepeating("SpawnBalls", 0, SpawnSpeed);
+    InvokeRepeating("SpawnItems", 0, SpawnSpeed);
 
-    InvokeRepeating("subIncreaseSpawnSpeed", 10, 10);
+    // InvokeRepeating("subIncreaseSpawnSpeed", 30, 30);
+
+    gameStart = false;
   }
 
   void subIncrease_Spawn_Speed()
   {
 
-    float SpeedIncrease = 0.3f;
+    // float SpeedIncrease = 0.3f;
 
     CancelInvoke("SpawnItems");
 
-    if ((SpawnSpeed - SpeedIncrease) < 1)
-    {
-      SpawnSpeed = 0.1f;
-    }
-    else
-    {
-      SpawnSpeed = SpawnSpeed - SpeedIncrease;
-    }
+    // if ((SpawnSpeed - SpeedIncrease) < 1)
+    // {
+    //   SpawnSpeed = 0.1f;
+    // }
+    // else
+    // {
+    //   SpawnSpeed = SpawnSpeed - SpeedIncrease;
+    // }
 
     InvokeRepeating("SpawnItems", 0, SpawnSpeed);
   }
 
   void SpawnItems()
   {
-    GameObject choosedItem;
+    bool spawned = false;
+    int randomChance = Random.Range(0, 100);
 
-    int whichItem = Random.Range(1, 4);
+    Debug.Log(randomChance);
 
-    switch (whichItem)
+    GameObject choosedItem = null;
+
+    if (randomChance < 10)
     {
-      case 1:
-        choosedItem = bone;
-        break;
-      case 2:
-        choosedItem = heath;
-        break;
-      case 3:
-        choosedItem = immunity;
-        break;
-      default:
-        choosedItem = immunity;
-        break;
+      choosedItem = immunity;
+      spawned = !spawned;
+    }
+    else if (randomChance < 25)
+    {
+      choosedItem = health;
+      spawned = !spawned;
+    }
+    else if (randomChance < 60)
+    {
+      choosedItem = collectable;
+      spawned = !spawned;
     }
 
-    Instantiate(choosedItem, new Vector2(transform.position.x, Random.Range(minY, maxY)),
-        Quaternion.identity);
+    if (spawned)
+    {
+      Instantiate(choosedItem, new Vector2(transform.position.x, Random.Range(minY, maxY)),
+            Quaternion.identity);
+      spawned = !spawned;
+    }
   }
+
+
 }
