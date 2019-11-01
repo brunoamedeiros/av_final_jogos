@@ -10,6 +10,12 @@ public class HotBalloon : MonoBehaviour
   private float originalY;
   private float minY = -2.35f;
   private float maxY = 3.76f;
+  private TextMesh text;
+
+  void Awake()
+  {
+    text = GameObject.Find("TouchStart").GetComponent<TextMesh>();
+  }
 
   // Start is called before the first frame update
   void Start()
@@ -35,10 +41,11 @@ public class HotBalloon : MonoBehaviour
 
     if (Input.GetMouseButtonDown(0))
     {
-      gameController.gameStart = true;
+      gameController.gameStarted = true;
+      text.gameObject.SetActive(false);
     }
 
-    if (gameController.gameStart)
+    if (gameController.gameStarted)
     {
       if (Input.GetMouseButton(0))
       {
@@ -88,5 +95,50 @@ public class HotBalloon : MonoBehaviour
     }
 
     transform.position = new Vector3(transform.position.x, currentPosition.y, transform.position.z);
+  }
+
+  void OnTriggerEnter2D(Collider2D target)
+  {
+
+    // implementar com ENUM
+
+    if (target.tag == "Item")
+    {
+
+      Items item = target.GetComponent<Items>();
+
+      switch (item.type)
+      {
+        case "collectable":
+          gameController.AddScore(1);
+          break;
+        case "immunity":
+          gameController.ActiveImmunity();
+          break;
+        case "health":
+          gameController.AddHealth();
+          break;
+
+        default:
+          break;
+      }
+
+      Destroy(target.gameObject);
+
+    }
+
+    if (target.tag == "Obstacle")
+    {
+      if (gameController.immunityActivated)
+      {
+        print("Indestructible");
+      }
+      else
+      {
+        gameController.TakeDamage(15);
+        print(target);
+        Destroy(target.gameObject);
+      }
+    }
   }
 }

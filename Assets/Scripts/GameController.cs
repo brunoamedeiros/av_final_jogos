@@ -1,84 +1,117 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class GameController : MonoBehaviour
 {
-  private static float SpawnSpeed = 3f;
+  public bool gameStarted;
+  private int score;
+  private int currentHealth = 0;
+  private int maxHealth = 100;
+  private TextMesh ScoreText;
   public string NewLevel = "Level 2";
+  public float delay = 10;
   private Scene currentScene;
-  private float minY = -2.35f;
-  private float maxY = 3.76f;
-  public bool gameStart;
-  public GameObject collectable;
-  public GameObject health;
-  public GameObject immunity;
+  public bool immunityActivated = false;
+  public SimpleHealthBar healthBar;
+
+  private void Awake()
+  {
+    GameObject go = GameObject.FindWithTag("ScoreText");
+    ScoreText = go.GetComponent<TextMesh>();
+  }
 
   // Start is called before the first frame update
   void Start()
   {
+    gameStarted = false;
+    currentHealth = maxHealth;
     currentScene = SceneManager.GetActiveScene();
 
-    InvokeRepeating("SpawnItems", 0, SpawnSpeed);
-
-    // InvokeRepeating("subIncreaseSpawnSpeed", 30, 30);
-
-    gameStart = false;
-  }
-
-  void subIncrease_Spawn_Speed()
-  {
-
-    // float SpeedIncrease = 0.3f;
-
-    CancelInvoke("SpawnItems");
-
-    // if ((SpawnSpeed - SpeedIncrease) < 1)
+    // if (currentScene.name == "Level 1")
     // {
-    //   SpawnSpeed = 0.1f;
-    // }
-    // else
-    // {
-    //   SpawnSpeed = SpawnSpeed - SpeedIncrease;
+    //   StartCoroutine(LoadLevelAfterDelay(delay));
     // }
 
-    InvokeRepeating("SpawnItems", 0, SpawnSpeed);
+    UpdateScore();
+    UpdateHealth();
   }
 
-  void SpawnItems()
+  public void AddScore(int newScoreValue)
   {
-    bool spawned = false;
-    int randomChance = Random.Range(0, 100);
+    score += newScoreValue;
+    UpdateScore();
+  }
 
-    Debug.Log(randomChance);
+  public void RemoveScore(int newScoreValue)
+  {
+    score -= newScoreValue;
+    UpdateScore();
+  }
 
-    GameObject choosedItem = null;
+  public void UpdateScore()
+  {
+    ScoreText.text = score.ToString();
+  }
 
-    if (randomChance < 10)
-    {
-      choosedItem = immunity;
-      spawned = !spawned;
-    }
-    else if (randomChance < 25)
-    {
-      choosedItem = health;
-      spawned = !spawned;
-    }
-    else if (randomChance < 60)
-    {
-      choosedItem = collectable;
-      spawned = !spawned;
-    }
+  public void AddHealth()
+  {
+    // Increase the current health by 25%.
+    currentHealth += (maxHealth / 4);
 
-    if (spawned)
+    // If the current health is greater than max, then set it to max.
+    if (currentHealth > maxHealth)
+      currentHealth = maxHealth;
+
+    // Update the Simple Health Bar with the new Health values.
+    UpdateHealth();
+  }
+
+  public void TakeDamage(int damage)
+  {
+    currentHealth -= damage;
+    UpdateHealth();
+  }
+
+  public void UpdateHealth()
+  {
+    // Now is where you will want to update the Simple Health Bar. Only AFTER the value has been modified.
+    healthBar.UpdateBar(currentHealth, maxHealth);
+
+    if (currentHealth < 0)
     {
-      Instantiate(choosedItem, new Vector2(transform.position.x, Random.Range(minY, maxY)),
-            Quaternion.identity);
-      spawned = !spawned;
+      SceneManager.LoadScene(0);
+      print("Game Over");
     }
   }
 
+  public void ActiveImmunity()
+  {
+    StartCoroutine(Immunity());
+  }
 
+  IEnumerator Immunity()
+  {
+    immunityActivated = !immunityActivated;
+    healthBar.UpdateColor(Color.cyan);
+
+    yield return new WaitForSeconds(10);
+
+    healthBar.UpdateColor(Color.green);
+    immunityActivated = !immunityActivated;
+
+    StopCoroutine("ActiveImmunity");
+  }
+
+  IEnumerator LoadLevelAfterDelay(float delay)
+  {
+    yield return new WaitForSeconds(delay);
+    // PlayerPrefs.SetInt("Player Score", score);
+    // PlayerPrefs.SetFloat("Spawn Speed", fSpawn_Speed);
+
+    // NewLevel = PlayerPrefs.GetString("lastLoadedScene");
+    SceneManager.LoadScene(NewLevel);
+    StopCoroutine("LoadLevelAfterDelay");
+  }
 }

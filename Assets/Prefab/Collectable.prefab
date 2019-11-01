@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0c49880313a3648ad4032a3d153172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropChance: 60
+  type: collectable
 --- !u!50 &5901931134002241580
 Rigidbody2D:
   serializedVersion: 4

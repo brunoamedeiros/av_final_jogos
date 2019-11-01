@@ -2,30 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Items : MonoBehaviour
 {
-  public float dropChance;
   private float speed = 3f;
   private float originalY;
-  private GameController gameController;
+  public string type;
 
   private void Start()
   {
     originalY = transform.position.y;
-
-    GameObject gameControllerObject = GameObject.FindWithTag("GameController");
-
-    if (gameControllerObject != null)
-    {
-      gameController = gameControllerObject.GetComponent<GameController>();
-    }
-
-    if (gameController == null)
-    {
-      Debug.Log("Cannot find 'GameController' script");
-    }
   }
 
   // Update is called once per frame
