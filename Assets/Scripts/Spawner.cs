@@ -10,6 +10,7 @@ public class Spawner : MonoBehaviour
   public GameObject collectable;
   public GameObject health;
   public GameObject immunity;
+  public GameObject bird;
   private GameController gameController;
 
   // Start is called before the first frame update
@@ -55,26 +56,54 @@ public class Spawner : MonoBehaviour
 
     if (gameController.gameStarted)
     {
-      int randomChance = Random.Range(0, 100);
+      int randomChanceItemOrObstacle = Random.Range(0, 100);
+      int randomChanceItem = Random.Range(0, 100);
+      int randomChanceObstacle = Random.Range(0, 100);
 
       GameObject choosedItem = null;
       Vector2 position = new Vector2(transform.position.x, Random.Range(minY, maxY));
       Quaternion rotation = Quaternion.identity;
 
-      if (randomChance < 10)
+      if (randomChanceItemOrObstacle <= 40)
       {
+        // Items
+        // if (randomChanceItem < 10)
+        // {
+        //   choosedItem = immunity;
+        //   Spawn(choosedItem, position, rotation);
+        // }
+        // else if (randomChanceItem < 25)
+        // {
+        //   choosedItem = health;
+        //   Spawn(choosedItem, position, rotation);
+        // }
+        // else if (randomChanceItem < 60)
+        // {
+        //   choosedItem = collectable;
+        //   Spawn(choosedItem, position, rotation);
+        // }
+
         choosedItem = immunity;
         Spawn(choosedItem, position, rotation);
       }
-      else if (randomChance < 25)
+      else if (randomChanceItemOrObstacle >= 60)
       {
-        choosedItem = health;
-        Spawn(choosedItem, position, rotation);
-      }
-      else if (randomChance < 60)
-      {
-        choosedItem = collectable;
-        Spawn(choosedItem, position, rotation);
+        // Obstacles
+        if (randomChanceObstacle <= 100)
+        {
+          choosedItem = bird;
+          Spawn(choosedItem, position, rotation);
+        }
+        // else if (randomChanceObstacle < 25)
+        // {
+        //   choosedItem = health;
+        //   Spawn(choosedItem, position, rotation);
+        // }
+        // else if (randomChanceObstacle < 60)
+        // {
+        //   choosedItem = collectable;
+        //   Spawn(choosedItem, position, rotation);
+        // }
       }
     }
   }

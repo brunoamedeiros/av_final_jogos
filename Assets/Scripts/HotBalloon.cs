@@ -100,13 +100,11 @@ public class HotBalloon : MonoBehaviour
   void OnTriggerEnter2D(Collider2D target)
   {
 
+    Items item = target.GetComponent<Items>();
     // implementar com ENUM
 
     if (target.tag == "Item")
     {
-
-      Items item = target.GetComponent<Items>();
-
       switch (item.type)
       {
         case "collectable":
@@ -122,23 +120,11 @@ public class HotBalloon : MonoBehaviour
         default:
           break;
       }
-
-      Destroy(target.gameObject);
-
     }
 
-    if (target.tag == "Obstacle")
+    if (target.tag == "Obstacle" && !gameController.immunityActivated)
     {
-      if (gameController.immunityActivated)
-      {
-        print("Indestructible");
-      }
-      else
-      {
-        gameController.TakeDamage(15);
-        print(target);
-        Destroy(target.gameObject);
-      }
+      gameController.TakeDamage(30);
     }
   }
 }
