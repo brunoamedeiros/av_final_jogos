@@ -67,24 +67,23 @@ public class Spawner : MonoBehaviour
       if (randomChanceItemOrObstacle <= 40)
       {
         // Items
-        // if (randomChanceItem < 10)
-        // {
-        //   choosedItem = immunity;
-        //   Spawn(choosedItem, position, rotation);
-        // }
-        // else if (randomChanceItem < 25)
-        // {
-        //   choosedItem = health;
-        //   Spawn(choosedItem, position, rotation);
-        // }
-        // else if (randomChanceItem < 60)
-        // {
-        //   choosedItem = collectable;
-        //   Spawn(choosedItem, position, rotation);
-        // }
 
-        choosedItem = immunity;
-        Spawn(choosedItem, position, rotation);
+        if (randomChanceItem < 10)
+        {
+          choosedItem = immunity;
+          Spawn(choosedItem, position, rotation);
+        }
+        else if (randomChanceItem < 25)
+        {
+          choosedItem = health;
+          Spawn(choosedItem, position, rotation);
+        }
+        else if (randomChanceItem < 60)
+        {
+          choosedItem = collectable;
+          Spawn(choosedItem, position, rotation);
+        }
+
       }
       else if (randomChanceItemOrObstacle >= 60)
       {
