@@ -11,10 +11,13 @@ public class HotBalloon : MonoBehaviour
   private float minY = -2.35f;
   private float maxY = 3.76f;
   private TextMesh text;
+  public AudioClip sound;
+  private AudioSource source;
 
   void Awake()
   {
     text = GameObject.Find("TouchStart").GetComponent<TextMesh>();
+    source = GetComponent<AudioSource>();
   }
 
   // Start is called before the first frame update
@@ -43,6 +46,7 @@ public class HotBalloon : MonoBehaviour
     {
       gameController.gameStarted = true;
       text.gameObject.SetActive(false);
+      source.PlayOneShot(sound);
     }
 
     if (gameController.gameStarted)
@@ -108,7 +112,7 @@ public class HotBalloon : MonoBehaviour
       switch (item.type)
       {
         case "collectable":
-          gameController.AddScore(1);
+          gameController.AddScore(3);
           break;
         case "immunity":
           gameController.ActiveImmunity();

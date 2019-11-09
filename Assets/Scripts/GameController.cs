@@ -15,11 +15,15 @@ public class GameController : MonoBehaviour
   private Scene currentScene;
   public bool immunityActivated = false;
   public SimpleHealthBar healthBar;
+  private float timer;
+  public AudioClip gameOverSound;
+  private AudioSource[] source;
 
   private void Awake()
   {
     GameObject go = GameObject.FindWithTag("ScoreText");
     ScoreText = go.GetComponent<TextMesh>();
+    source = GetComponents<AudioSource>();
   }
 
   // Start is called before the first frame update
@@ -38,10 +42,34 @@ public class GameController : MonoBehaviour
     UpdateHealth();
   }
 
+  void Update()
+  {
+    if (gameStarted)
+    {
+      AddScoreByTime();
+    }
+  }
+
   public void AddScore(int newScoreValue)
   {
     score += newScoreValue;
     UpdateScore();
+  }
+
+  public void AddScoreByTime()
+  {
+    timer += Time.deltaTime;
+
+    if (timer > 3f)
+    {
+
+      score += 1;
+
+      UpdateScore();
+
+      //Reset the timer to 0.
+      timer = 0;
+    }
   }
 
   public void RemoveScore(int newScoreValue)
@@ -81,9 +109,28 @@ public class GameController : MonoBehaviour
 
     if (currentHealth < 0)
     {
-      SceneManager.LoadScene(0);
-      print("Game Over");
+      StartCoroutine(GameOver());
     }
+  }
+
+  public IEnumerator GameOver()
+  {
+    source[1].mute = true;
+    source[0].PlayOneShot(gameOverSound);
+
+    yield return new WaitForSeconds(gameOverSound.length);
+
+    SceneManager.LoadScene(0);
+
+    // Reset Game
+    score = 0;
+    gameStarted = false;
+    currentHealth = 0;
+    maxHealth = 100;
+    immunityActivated = false;
+    source[1].mute = false;
+
+    print("Game Over");
   }
 
   public void ActiveImmunity()
@@ -94,11 +141,11 @@ public class GameController : MonoBehaviour
   IEnumerator Immunity()
   {
     immunityActivated = !immunityActivated;
-    healthBar.UpdateColor(Color.cyan);
+    healthBar.UpdateColor(new Color32(0, 94, 144, 255));
 
     yield return new WaitForSeconds(10);
 
-    healthBar.UpdateColor(Color.green);
+    healthBar.UpdateColor(new Color32(47, 144, 0, 255));
     immunityActivated = !immunityActivated;
 
     StopCoroutine("ActiveImmunity");
