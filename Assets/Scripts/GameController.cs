@@ -1,42 +1,45 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class GameController : MonoBehaviour
 {
   public bool gameStarted;
-  private int score;
+  private static int score;
   private int currentHealth = 0;
   private int maxHealth = 100;
   private TextMesh ScoreText;
-  public string NewLevel = "Level 2";
+  public int NewLevel = 1;
   public float delay = 10;
-  private Scene currentScene;
+  public Scene currentScene;
   public bool immunityActivated = false;
   public SimpleHealthBar healthBar;
   private float timer;
   public AudioClip gameOverSound;
   private AudioSource[] source;
+  public Button ButtonSound;
 
   private void Awake()
   {
     GameObject go = GameObject.FindWithTag("ScoreText");
     ScoreText = go.GetComponent<TextMesh>();
     source = GetComponents<AudioSource>();
+    currentScene = SceneManager.GetActiveScene();
   }
 
   // Start is called before the first frame update
   void Start()
   {
-    gameStarted = false;
-    currentHealth = maxHealth;
-    currentScene = SceneManager.GetActiveScene();
+    if (currentScene.name == "Level 1")
+    {
+      gameStarted = false;
+    }
 
-    // if (currentScene.name == "Level 1")
-    // {
-    //   StartCoroutine(LoadLevelAfterDelay(delay));
-    // }
+    // ButtonSound.GetComponent
+
+    currentHealth = maxHealth;
 
     UpdateScore();
     UpdateHealth();
@@ -69,6 +72,11 @@ public class GameController : MonoBehaviour
 
       //Reset the timer to 0.
       timer = 0;
+    }
+
+    if (score >= 10 && currentScene.name == "Level 1")
+    {
+      SceneManager.LoadScene(1);
     }
   }
 
@@ -149,16 +157,5 @@ public class GameController : MonoBehaviour
     immunityActivated = !immunityActivated;
 
     StopCoroutine("ActiveImmunity");
-  }
-
-  IEnumerator LoadLevelAfterDelay(float delay)
-  {
-    yield return new WaitForSeconds(delay);
-    // PlayerPrefs.SetInt("Player Score", score);
-    // PlayerPrefs.SetFloat("Spawn Speed", fSpawn_Speed);
-
-    // NewLevel = PlayerPrefs.GetString("lastLoadedScene");
-    SceneManager.LoadScene(NewLevel);
-    StopCoroutine("LoadLevelAfterDelay");
   }
 }

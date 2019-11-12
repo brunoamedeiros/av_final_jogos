@@ -13,18 +13,10 @@ public class HotBalloon : MonoBehaviour
   private TextMesh text;
   public AudioClip sound;
   private AudioSource source;
+  private GameObject fire;
 
   void Awake()
   {
-    text = GameObject.Find("TouchStart").GetComponent<TextMesh>();
-    source = GetComponent<AudioSource>();
-  }
-
-  // Start is called before the first frame update
-  void Start()
-  {
-    originalY = transform.position.y;
-
     GameObject gameControllerObject = GameObject.FindWithTag("GameController");
 
     if (gameControllerObject != null)
@@ -36,6 +28,22 @@ public class HotBalloon : MonoBehaviour
     {
       Debug.Log("Cannot find 'GameController' script");
     }
+
+    if (gameController.currentScene.name == "Level 1")
+    {
+      text = GameObject.Find("TouchStart").GetComponent<TextMesh>();
+    }
+
+    source = GetComponent<AudioSource>();
+  }
+
+  // Start is called before the first frame update
+  void Start()
+  {
+    originalY = transform.position.y;
+
+    fire = GameObject.Find("Fire");
+    fire.SetActive(false);
   }
 
   // Update is called once per frame
@@ -45,7 +53,12 @@ public class HotBalloon : MonoBehaviour
     if (Input.GetMouseButtonDown(0))
     {
       gameController.gameStarted = true;
-      text.gameObject.SetActive(false);
+
+      if (gameController.currentScene.name == "Level 1")
+      {
+        text.gameObject.SetActive(false);
+      }
+
       source.PlayOneShot(sound);
     }
 
@@ -69,12 +82,14 @@ public class HotBalloon : MonoBehaviour
   private void Up()
   {
     float y = transform.position.y + (speed * Time.deltaTime);
+    fire.SetActive(true);
     VerifyLimitScreen(y);
   }
 
   private void Down()
   {
     float y = transform.position.y - (speed * Time.deltaTime);
+    fire.SetActive(false);
     VerifyLimitScreen(y);
   }
 
@@ -105,7 +120,6 @@ public class HotBalloon : MonoBehaviour
   {
 
     Items item = target.GetComponent<Items>();
-    // implementar com ENUM
 
     if (target.tag == "Item")
     {
