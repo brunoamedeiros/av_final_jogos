@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
   public bool gameStarted;
-  private static int score;
-  private int currentHealth = 0;
-  private int maxHealth = 100;
+  public static int score;
+  public int currentHealth = 0;
+  public int maxHealth = 100;
   private TextMesh ScoreText;
   public int NewLevel = 1;
   public float delay = 10;
@@ -18,8 +17,9 @@ public class GameController : MonoBehaviour
   public SimpleHealthBar healthBar;
   private float timer;
   public AudioClip gameOverSound;
-  private AudioSource[] source;
-  public Button ButtonSound;
+  public AudioSource[] source;
+  public GameObject gameOverPanel;
+  public bool gameOver = false;
 
   private void Awake()
   {
@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     ScoreText = go.GetComponent<TextMesh>();
     source = GetComponents<AudioSource>();
     currentScene = SceneManager.GetActiveScene();
+    gameOverPanel.SetActive(false);
+    ScoreText.gameObject.SetActive(false);
   }
 
   // Start is called before the first frame update
@@ -37,8 +39,6 @@ public class GameController : MonoBehaviour
       gameStarted = false;
     }
 
-    // ButtonSound.GetComponent
-
     currentHealth = maxHealth;
 
     UpdateScore();
@@ -47,9 +47,10 @@ public class GameController : MonoBehaviour
 
   void Update()
   {
-    if (gameStarted)
+    if (gameStarted && !gameOver)
     {
       AddScoreByTime();
+      ScoreText.gameObject.SetActive(true);
     }
   }
 
@@ -74,7 +75,7 @@ public class GameController : MonoBehaviour
       timer = 0;
     }
 
-    if (score >= 10 && currentScene.name == "Level 1")
+    if (score >= 5 && currentScene.name == "Level 1")
     {
       SceneManager.LoadScene(1);
     }
@@ -117,28 +118,16 @@ public class GameController : MonoBehaviour
 
     if (currentHealth < 0)
     {
-      StartCoroutine(GameOver());
+      GameOver();
     }
   }
 
-  public IEnumerator GameOver()
+  public void GameOver()
   {
     source[1].mute = true;
     source[0].PlayOneShot(gameOverSound);
-
-    yield return new WaitForSeconds(gameOverSound.length);
-
-    SceneManager.LoadScene(0);
-
-    // Reset Game
-    score = 0;
-    gameStarted = false;
-    currentHealth = 0;
-    maxHealth = 100;
-    immunityActivated = false;
-    source[1].mute = false;
-
-    print("Game Over");
+    gameOverPanel.SetActive(true);
+    gameOver = true;
   }
 
   public void ActiveImmunity()

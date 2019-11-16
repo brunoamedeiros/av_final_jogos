@@ -9,14 +9,31 @@ public class BackgroundLoop : MonoBehaviour
   float scrollSpeed = 0.1f;
   Renderer rend;
 
-  void Start()
+  private GameController gameController;
+
+  private void Start()
   {
+    GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+
+    if (gameControllerObject != null)
+    {
+      gameController = gameControllerObject.GetComponent<GameController>();
+    }
+
+    if (gameController == null)
+    {
+      Debug.Log("Cannot find 'GameController' script");
+    }
+
     rend = GetComponent<Renderer>();
   }
 
   void Update()
   {
-    float offset = Time.time * scrollSpeed;
-    rend.material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
+    if (!gameController.gameOver)
+    {
+      float offset = Time.time * scrollSpeed;
+      rend.material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
+    }
   }
 }

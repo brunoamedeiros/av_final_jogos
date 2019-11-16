@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class HotBalloon : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class HotBalloon : MonoBehaviour
   private float maxY = 3.76f;
   private TextMesh text;
   public AudioClip sound;
-  private AudioSource source;
+  public AudioSource source;
   private GameObject fire;
 
   void Awake()
@@ -50,7 +50,15 @@ public class HotBalloon : MonoBehaviour
   void Update()
   {
 
-    if (Input.GetMouseButtonDown(0))
+    bool buttonDown = Input.GetMouseButtonDown(0);
+
+    if (EventSystem.current.currentSelectedGameObject &&
+      EventSystem.current.currentSelectedGameObject.GetComponent<Button>() != null)
+    {
+      buttonDown = false;
+    }
+
+    if (buttonDown)
     {
       gameController.gameStarted = true;
 
@@ -59,25 +67,32 @@ public class HotBalloon : MonoBehaviour
         text.gameObject.SetActive(false);
       }
 
-      source.PlayOneShot(sound);
+      if (!gameController.gameOver)
+      {
+        source.PlayOneShot(sound);
+      }
     }
 
-    if (gameController.gameStarted)
+    if (!gameController.gameOver)
     {
-      if (Input.GetMouseButton(0))
+      if (gameController.gameStarted)
       {
-        Up();
+        if (Input.GetMouseButton(0))
+        {
+          Up();
+        }
+        else
+        {
+          Down();
+        }
       }
       else
       {
-        Down();
+        Float();
       }
     }
-    else
-    {
-      Float();
-    }
   }
+
 
   private void Up()
   {
@@ -142,7 +157,8 @@ public class HotBalloon : MonoBehaviour
 
     if (target.tag == "Obstacle" && !gameController.immunityActivated)
     {
-      gameController.TakeDamage(30);
+      int damage = (gameController.currentScene.name == "Level 1") ? 30 : 45;
+      gameController.TakeDamage(damage);
     }
   }
 }

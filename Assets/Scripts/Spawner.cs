@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-  private static float SpawnSpeed = 3f;
+  private static float SpawnSpeed = 1.5f;
   private float minY = -2.35f;
   private float maxY = 3.76f;
   public GameObject collectable;
@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
   void SpawnItems()
   {
 
-    if (gameController.gameStarted)
+    if (gameController.gameStarted && !gameController.gameOver)
     {
       int randomChanceItemOrObstacle = Random.Range(0, 100);
       int randomChanceItem = Random.Range(0, 100);
@@ -75,12 +75,12 @@ public class Spawner : MonoBehaviour
         }
         else if (randomChanceItem < 25)
         {
-          choosedItem = health;
+          choosedItem = collectable;
           Spawn(choosedItem, position, rotation);
         }
         else if (randomChanceItem < 60)
         {
-          choosedItem = collectable;
+          choosedItem = health;
           Spawn(choosedItem, position, rotation);
         }
 
@@ -93,16 +93,6 @@ public class Spawner : MonoBehaviour
           choosedItem = bird;
           Spawn(choosedItem, position, rotation);
         }
-        // else if (randomChanceObstacle < 25)
-        // {
-        //   choosedItem = health;
-        //   Spawn(choosedItem, position, rotation);
-        // }
-        // else if (randomChanceObstacle < 60)
-        // {
-        //   choosedItem = collectable;
-        //   Spawn(choosedItem, position, rotation);
-        // }
       }
     }
   }

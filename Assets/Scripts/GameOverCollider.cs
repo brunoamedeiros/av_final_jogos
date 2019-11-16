@@ -23,6 +23,6 @@ public class GameOverCollider : MonoBehaviour
 
   private void OnTriggerEnter2D(Collider2D target)
   {
-    StartCoroutine(gameController.GameOver());
+    gameController.GameOver();
   }
 }

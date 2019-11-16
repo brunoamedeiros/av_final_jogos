@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\GameOverCollider.cs" />
     <Compile Include="Assets\Scripts\HotBalloon.cs" />
     <Compile Include="Assets\Scripts\Items.cs" />
+    <Compile Include="Assets\Scripts\Restart.cs" />
     <Compile Include="Assets\Scripts\Sound.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Simple Health Bar\Scripts\SimpleHealthBar.cs" />
