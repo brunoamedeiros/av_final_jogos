@@ -5,7 +5,7 @@ using UnityEngine;
 public class Items : MonoBehaviour
 {
   private GameController gameController;
-  private float speed = 3f;
+  public float speed = 3f;
   private float originalY;
   public string type;
   public AudioClip sound;

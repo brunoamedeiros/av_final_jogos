@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0c49880313a3648ad4032a3d153172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 6
   type: obstacle
   sound: {fileID: 8300000, guid: bf56f47a8e28dfb44a526da913802481, type: 3}
 --- !u!50 &6206350846622697314
