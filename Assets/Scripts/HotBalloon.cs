@@ -8,7 +8,7 @@ public class HotBalloon : MonoBehaviour
   private GameController gameController;
   public int speed = 7;
   private float originalY;
-  private float minY = -2.35f;
+  private float minY = -5.49f;
   private float maxY = 3.76f;
   private TextMesh text;
   public AudioClip sound;

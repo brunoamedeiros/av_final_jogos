@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour
     currentScene = SceneManager.GetActiveScene();
     gameOverPanel.SetActive(false);
     ScoreText.gameObject.SetActive(false);
+    Screen.fullScreen = !Screen.fullScreen;
+    Screen.SetResolution(414, 736, false);
   }
 
   // Start is called before the first frame update
@@ -75,7 +77,7 @@ public class GameController : MonoBehaviour
       timer = 0;
     }
 
-    if (score >= 5 && currentScene.name == "Level 1")
+    if (score >= 1 && currentScene.name == "Level 1")
     {
       SceneManager.LoadScene(1);
     }
