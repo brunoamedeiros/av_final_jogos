@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 {
   public bool gameStarted;
   public static int score;
+  private static int highestScore = 0;
   public int currentHealth = 0;
   public int maxHealth = 100;
   private TextMesh ScoreText;
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
 
     currentHealth = maxHealth;
 
+    LoadPlayerProgress();
     UpdateScore();
     UpdateHealth();
   }
@@ -83,16 +85,54 @@ public class GameController : MonoBehaviour
     }
   }
 
-  public void RemoveScore(int newScoreValue)
-  {
-    score -= newScoreValue;
-    UpdateScore();
-  }
-
   public void UpdateScore()
   {
-    ScoreText.text = score.ToString();
+    string text = "";
+
+    if (score < GetHighestPlayerScore())
+    {
+      text = score.ToString() + " / " + GetHighestPlayerScore().ToString();
+    }
+    else
+    {
+      text = score.ToString() + " / " + score.ToString();
+    }
+
+    ScoreText.text = text;
   }
+
+
+  // https://learn.unity.com/tutorial/live-session-quiz-game-2#5c7f8528edbc2a002053b634
+  public void SubmitNewPlayerScore(int newScore)
+  {
+    // If newScore is greater than playerProgress.highestScore, update playerProgress with the new value and call SavePlayerProgress()
+    if (newScore > highestScore)
+    {
+      highestScore = newScore;
+      SavePlayerProgress();
+    }
+  }
+
+  public int GetHighestPlayerScore()
+  {
+    return highestScore;
+  }
+
+  private void LoadPlayerProgress()
+  {
+    // If PlayerPrefs contains a key called "highestScore", set the value of highestScore using the value associated with that key
+    if (PlayerPrefs.HasKey("highestScore"))
+    {
+      highestScore = PlayerPrefs.GetInt("highestScore");
+    }
+  }
+
+  private void SavePlayerProgress()
+  {
+    // Save the value highestScore to PlayerPrefs, with a key of "highestScore"
+    PlayerPrefs.SetInt("highestScore", highestScore);
+  }
+  // https://learn.unity.com/tutorial/live-session-quiz-game-2#5c7f8528edbc2a002053b634
 
   public void AddHealth()
   {
@@ -126,6 +166,7 @@ public class GameController : MonoBehaviour
 
   public void GameOver()
   {
+    SubmitNewPlayerScore(score);
     source[1].mute = true;
     source[0].PlayOneShot(gameOverSound);
     gameOverPanel.SetActive(true);
