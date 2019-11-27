@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-  private static float SpawnSpeed = 1.5f;
+  private static float SpawnSpeed = 1.0f;
   private float minY = -2.35f;
   private float maxY = 3.76f;
   public GameObject collectable;
@@ -29,31 +29,30 @@ public class Spawner : MonoBehaviour
     }
 
     InvokeRepeating("SpawnItems", 0, SpawnSpeed);
-    // InvokeRepeating("subIncreaseSpawnSpeed", 30, 30);
+    InvokeRepeating("subIncreaseSpawnSpeed", 30, 30);
   }
 
-  void subIncrease_Spawn_Speed()
+  void subIncreaseSpawnSpeed()
   {
 
-    // float SpeedIncrease = 0.3f;
+    float SpeedIncrease = 0.3f;
 
     CancelInvoke("SpawnItems");
 
-    // if ((SpawnSpeed - SpeedIncrease) < 1)
-    // {
-    //   SpawnSpeed = 0.1f;
-    // }
-    // else
-    // {
-    //   SpawnSpeed = SpawnSpeed - SpeedIncrease;
-    // }
+    if ((SpawnSpeed - SpeedIncrease) < 0.1)
+    {
+      SpawnSpeed = 0.1f;
+    }
+    else
+    {
+      SpawnSpeed = SpawnSpeed - SpeedIncrease;
+    }
 
     InvokeRepeating("SpawnItems", 0, SpawnSpeed);
   }
 
   void SpawnItems()
   {
-
     if (gameController.gameStarted && !gameController.gameOver)
     {
       int randomChanceItemOrObstacle = Random.Range(0, 100);
@@ -64,10 +63,9 @@ public class Spawner : MonoBehaviour
       Vector2 position = new Vector2(transform.position.x, Random.Range(minY, maxY));
       Quaternion rotation = Quaternion.identity;
 
-      if (randomChanceItemOrObstacle <= 40)
+      if (randomChanceItemOrObstacle <= 20)
       {
         // Items
-
         if (randomChanceItem < 10)
         {
           choosedItem = immunity;
@@ -75,24 +73,19 @@ public class Spawner : MonoBehaviour
         }
         else if (randomChanceItem < 25)
         {
-          choosedItem = collectable;
+          choosedItem = health;
           Spawn(choosedItem, position, rotation);
         }
         else if (randomChanceItem < 60)
         {
-          choosedItem = health;
+          choosedItem = collectable;
           Spawn(choosedItem, position, rotation);
         }
-
       }
-      else if (randomChanceItemOrObstacle >= 60)
+      else if (randomChanceItemOrObstacle >= 80)
       {
-        // Obstacles
-        if (randomChanceObstacle <= 100)
-        {
-          choosedItem = bird;
-          Spawn(choosedItem, position, rotation);
-        }
+        choosedItem = bird;
+        Spawn(choosedItem, position, rotation);
       }
     }
   }

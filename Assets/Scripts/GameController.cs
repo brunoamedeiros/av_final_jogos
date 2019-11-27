@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
       timer = 0;
     }
 
-    if (score >= 1 && currentScene.name == "Level 1")
+    if (score >= 15 && currentScene.name == "Level 1")
     {
       SceneManager.LoadScene(1);
     }
@@ -139,13 +139,13 @@ public class GameController : MonoBehaviour
 
   IEnumerator Immunity()
   {
-    immunityActivated = !immunityActivated;
+    immunityActivated = true;
     healthBar.UpdateColor(new Color32(0, 94, 144, 255));
 
     yield return new WaitForSeconds(10);
 
     healthBar.UpdateColor(new Color32(47, 144, 0, 255));
-    immunityActivated = !immunityActivated;
+    immunityActivated = false;
 
     StopCoroutine("ActiveImmunity");
   }

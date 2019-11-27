@@ -58,7 +58,7 @@ public class HotBalloon : MonoBehaviour
       buttonDown = false;
     }
 
-    if (buttonDown)
+    if (buttonDown || Input.GetButtonDown("Jump"))
     {
       gameController.gameStarted = true;
 
@@ -77,7 +77,7 @@ public class HotBalloon : MonoBehaviour
     {
       if (gameController.gameStarted)
       {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || Input.GetButton("Jump"))
         {
           Up();
         }
