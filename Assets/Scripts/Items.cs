@@ -42,11 +42,6 @@ public class Items : MonoBehaviour
     Float();
   }
 
-  // private void OnBecameInvisible()
-  // {
-  //   Destroy(gameObject);
-  // }
-
   private void Movement()
   {
     float x = transform.position.x - (speed * Time.deltaTime);

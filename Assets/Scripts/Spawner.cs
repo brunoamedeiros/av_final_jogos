@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-  private static float SpawnSpeed = 1.0f;
+  public static float SpawnSpeed = 1.0f;
   private float minY = -2.35f;
   private float maxY = 3.76f;
   public GameObject collectable;
@@ -29,7 +29,7 @@ public class Spawner : MonoBehaviour
     }
 
     InvokeRepeating("SpawnItems", 0, SpawnSpeed);
-    InvokeRepeating("subIncreaseSpawnSpeed", 30, 30);
+    InvokeRepeating("subIncreaseSpawnSpeed", 15, 15);
   }
 
   void subIncreaseSpawnSpeed()
@@ -53,6 +53,7 @@ public class Spawner : MonoBehaviour
 
   void SpawnItems()
   {
+    print(SpawnSpeed);
     if (gameController.gameStarted && !gameController.gameOver)
     {
       int randomChanceItemOrObstacle = Random.Range(0, 100);

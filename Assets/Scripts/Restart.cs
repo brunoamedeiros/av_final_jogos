@@ -30,6 +30,9 @@ public class Restart : MonoBehaviour
     gameController.maxHealth = 100;
     gameController.immunityActivated = false;
     gameController.source[1].mute = false;
+    Spawner.SpawnSpeed = 1.0f;
+
+    StopAllCoroutines();
 
     SceneManager.LoadScene(0);
   }
