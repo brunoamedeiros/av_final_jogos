@@ -18,7 +18,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Score
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Score
+    uniqueID: 3794180017
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
