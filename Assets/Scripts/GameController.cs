@@ -101,7 +101,6 @@ public class GameController : MonoBehaviour
     ScoreText.text = text;
   }
 
-
   // https://learn.unity.com/tutorial/live-session-quiz-game-2#5c7f8528edbc2a002053b634
   public void SubmitNewPlayerScore(int newScore)
   {

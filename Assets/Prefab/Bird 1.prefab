@@ -144,6 +144,8 @@ MonoBehaviour:
   speed: 6
   type: obstacle
   sound: {fileID: 8300000, guid: bf56f47a8e28dfb44a526da913802481, type: 3}
+  FloatingText: {fileID: 3063628241556780344, guid: 3d5c8796eb3edf64bb92b793fff4d9e2,
+    type: 3}
 --- !u!50 &6206350846622697314
 Rigidbody2D:
   serializedVersion: 4

@@ -10,6 +10,7 @@ public class Items : MonoBehaviour
   public string type;
   public AudioClip sound;
   private AudioSource source;
+  public GameObject FloatingText;
 
   // Start is called before the first frame update
   void Awake()
@@ -54,6 +55,11 @@ public class Items : MonoBehaviour
     transform.position = new Vector3(transform.position.x, floatY, transform.position.z);
   }
 
+  private void ShowFloatingText(GameObject target)
+  {
+    Instantiate(FloatingText, target.transform.position, Quaternion.identity, target.transform);
+  }
+
   private void OnTriggerEnter2D(Collider2D target)
   {
     Items item = gameObject.GetComponent<Items>();
@@ -63,6 +69,7 @@ public class Items : MonoBehaviour
       if (item.type != "obstacle")
       {
         source.PlayOneShot(sound);
+        ShowFloatingText(target.gameObject);
         // move the game object off screen while it finishes it's sound, then destroy it
         transform.position = Vector3.one * 9999f;
         Destroy(gameObject.gameObject, sound.length);
@@ -70,6 +77,7 @@ public class Items : MonoBehaviour
       else if (!gameController.immunityActivated)
       {
         source.PlayOneShot(sound);
+        ShowFloatingText(target.gameObject);
         // move the game object off screen while it finishes it's sound, then destroy it
         transform.position = Vector3.one * 9999f;
         Destroy(gameObject.gameObject, sound.length);

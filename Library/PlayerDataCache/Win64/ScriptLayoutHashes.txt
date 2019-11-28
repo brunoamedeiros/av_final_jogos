@@ -126,7 +126,7 @@ b3ab2106268377ffe25dd18ac23dca28 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 71bb6a6b6c8f052f948db64c7dd3ca4f Unity.Analytics.Editor.dll:UnityEditor.Analytics.AnalyticsEventTrackerEditor
 71bb6a6b6c8f052f948db64c7dd3ca4f Unity.TextMeshPro.dll:TMPro.TMP_SpriteAnimator
 4fd8bf02e3089425d3502e26c44ba31a Unity.TextMeshPro.dll:TMPro.TextContainer
-a4242c214540b1b5bf3544c985dc5ce3 Assembly-CSharp.dll:.Items
+98eca088566e352d00986803895c2ba1 Assembly-CSharp.dll:.Items
 57d1148e45f03a01dc121d027969f2fc Assembly-CSharp.dll:.Spawner
 e6ae40841db498b6e673877ac45ad208 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 71bb6a6b6c8f052f948db64c7dd3ca4f UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -167,3 +167,4 @@ c6666661329916e218bee7f5e79e60f5 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 8d173a182e1e896dd32bb47442f290ed Assembly-CSharp.dll:.Sound
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.GameOverCollider
 8649814970b42d345b89944b862453cc Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
+a0294b51e48dcff81157996fad154f27 Assembly-CSharp.dll:.FloatingText

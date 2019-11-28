@@ -126,8 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0c49880313a3648ad4032a3d153172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3
   type: collectable
   sound: {fileID: 8300000, guid: f2882c866e72c4440a6de6d9326f5a79, type: 3}
+  FloatingText: {fileID: 3063628241556780344, guid: 2b39ffd85d43a754a9eb610523527eea,
+    type: 3}
 --- !u!50 &5901931134002241580
 Rigidbody2D:
   serializedVersion: 4
