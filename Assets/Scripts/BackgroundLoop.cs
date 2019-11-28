@@ -6,7 +6,7 @@ public class BackgroundLoop : MonoBehaviour
 {
   // Scroll main texture based on time
 
-  float scrollSpeed = 0.1f;
+  public float scrollSpeed = 0.1f;
   Renderer rend;
 
   private GameController gameController;

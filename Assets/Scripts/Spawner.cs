@@ -29,7 +29,7 @@ public class Spawner : MonoBehaviour
     }
 
     InvokeRepeating("SpawnItems", 0, SpawnSpeed);
-    InvokeRepeating("subIncreaseSpawnSpeed", 2, 2);
+    InvokeRepeating("subIncreaseSpawnSpeed", 15, 15);
   }
 
   void subIncreaseSpawnSpeed()
