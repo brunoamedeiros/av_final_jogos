@@ -6,6 +6,7 @@ public class HotBalloon : MonoBehaviour
 {
 
   private GameController gameController;
+  private Spawner spawner;
   public int speed = 7;
   private float originalY;
   private float minY = -5.49f;
@@ -32,6 +33,18 @@ public class HotBalloon : MonoBehaviour
     if (gameController.currentScene.name == "Level 1")
     {
       text = GameObject.Find("TouchStart").GetComponent<TextMesh>();
+    }
+
+    GameObject spawnerObject = GameObject.Find("Spawner");
+
+    if (spawnerObject != null)
+    {
+      spawner = spawnerObject.GetComponent<Spawner>();
+    }
+
+    if (spawner == null)
+    {
+      Debug.Log("Cannot find 'Spawner' script");
     }
 
     source = GetComponent<AudioSource>();
